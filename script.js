@@ -2,21 +2,26 @@
   const gameEl = document.getElementById('game');
   const progressEl = document.getElementById('progress');
 
-  function getStoryName() {
-    const params = new URLSearchParams(location.search);
-    return params.get('story') || 'empathy';
+  const storyNames = await fetch('stories/list.json').then(r => r.json());
+  const STORIES = {};
+  for (const name of storyNames) {
+    STORIES[name] = await fetch(`stories/${name}.json`).then(r => r.json());
   }
 
-  const storyName = getStoryName();
-  const story = await fetch(`stories/${storyName}.json`).then(r => r.json());
-  let current = localStorage.getItem(`emoquest_current_${storyName}`) || 'start';
+  let currentStory = null;
+  let currentNode = 'start';
+
+  function titleCase(str) {
+    return str.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
 
   function render(nodeId) {
+    const story = STORIES[currentStory];
     const node = story[nodeId];
     if (!node) return;
     Tracker.increment(node.tags);
-    current = nodeId;
-    localStorage.setItem(`emoquest_current_${storyName}`, nodeId);
+    currentNode = nodeId;
+    localStorage.setItem(`emoquest_current_${currentStory}`, nodeId);
 
     const optionsHtml = (node.options || [])
       .map(opt => `<button data-next="${opt.next}">${opt.text}</button>`)
@@ -39,5 +44,29 @@
     progressEl.textContent = Tracker.summary();
   }
 
-  render(current);
+  function startStory(name) {
+    currentStory = name;
+    localStorage.setItem('emoquest_last_story', name);
+    currentNode = localStorage.getItem(`emoquest_current_${name}`) || 'start';
+    render(currentNode);
+  }
+
+  function showMenu() {
+    const buttons = storyNames
+      .map(n => `<button data-story="${n}">${titleCase(n)}</button>`)
+      .join('');
+    gameEl.innerHTML = `<div class="options">${buttons}</div>`;
+    document.querySelectorAll('[data-story]').forEach(btn => {
+      btn.addEventListener('click', () => startStory(btn.getAttribute('data-story')));
+    });
+    progressEl.textContent = Tracker.summary();
+  }
+
+  const params = new URLSearchParams(location.search);
+  const chosen = params.get('story') || localStorage.getItem('emoquest_last_story');
+  if (chosen && STORIES[chosen]) {
+    startStory(chosen);
+  } else {
+    showMenu();
+  }
 })();
