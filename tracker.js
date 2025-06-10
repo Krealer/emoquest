@@ -17,10 +17,20 @@ const Tracker = {
     'self-compassion': '💗'
   },
   load() {
-    this.data = JSON.parse(localStorage.getItem('emoquest_tags') || '{}');
+    try {
+      const raw = localStorage.getItem('emoquest_tags');
+      this.data = JSON.parse(raw || '{}');
+    } catch (err) {
+      console.warn('Failed to read localStorage', err);
+      this.data = {};
+    }
   },
   save() {
-    localStorage.setItem('emoquest_tags', JSON.stringify(this.data));
+    try {
+      localStorage.setItem('emoquest_tags', JSON.stringify(this.data));
+    } catch (err) {
+      console.warn('Failed to write localStorage', err);
+    }
   },
   increment(tags = []) {
     tags.forEach(tag => {
