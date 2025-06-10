@@ -1,6 +1,22 @@
 (async function() {
   const gameEl = document.getElementById('game');
   const progressEl = document.getElementById('progress');
+  const logBtn = document.getElementById('view-log');
+  const logModal = document.getElementById('log-modal');
+  const logBody = document.getElementById('log-body');
+  const closeLog = document.getElementById('close-log');
+
+  if (logBtn) {
+    logBtn.addEventListener('click', () => {
+      logBody.innerHTML = Tracker.lines().join('<br>');
+      logModal.style.display = 'flex';
+    });
+  }
+  if (closeLog) {
+    closeLog.addEventListener('click', () => {
+      logModal.style.display = 'none';
+    });
+  }
 
   const storyNames = await fetch('stories/list.json').then(r => r.json());
   const STORIES = {};
@@ -13,6 +29,18 @@
 
   function titleCase(str) {
     return str.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  function notifyNewTags(tags = []) {
+    if (!tags.length) {
+      progressEl.textContent = Tracker.summary();
+      return;
+    }
+    const list = tags.map(t => Tracker.label(t)).join(', ');
+    progressEl.textContent = `You just gained insight into: ${list}`;
+    setTimeout(() => {
+      progressEl.textContent = Tracker.summary();
+    }, 2000);
   }
 
   function render(nodeId) {
@@ -58,7 +86,7 @@
       });
     });
 
-    progressEl.textContent = Tracker.summary();
+    notifyNewTags(node.tags);
   }
 
   function startStory(name) {
@@ -76,7 +104,7 @@
     document.querySelectorAll('[data-story]').forEach(btn => {
       btn.addEventListener('click', () => startStory(btn.getAttribute('data-story')));
     });
-    progressEl.textContent = Tracker.summary();
+    notifyNewTags([]);
   }
 
   const params = new URLSearchParams(location.search);
