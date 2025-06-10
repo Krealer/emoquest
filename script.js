@@ -27,14 +27,31 @@
       .map(opt => `<button data-next="${opt.next}">${opt.text}</button>`)
       .join('');
 
-    gameEl.innerHTML = `
-      <div class="text">${node.text}</div>
-      ${node.insight ? `<div class="insight">${node.insight}</div>` : ''}
-      ${node.reflect ? `<div class="reflect">${node.reflect}</div>` : ''}
-      <div class="options">${optionsHtml}</div>
-    `;
+    let html = `<div class="text">${node.text}</div>`;
+    if (node.insight) html += `<div class="insight">${node.insight}</div>`;
 
-    document.querySelectorAll('#game button').forEach(btn => {
+    if (node.reflect) {
+      html += `<div class="reflect">${node.reflect}</div>`;
+      html += `<button id="continue">Next</button>`;
+      html += `<div class="options" style="display:none">${optionsHtml}</div>`;
+    } else {
+      html += `<div class="options">${optionsHtml}</div>`;
+    }
+
+    gameEl.innerHTML = html;
+
+    const continueBtn = document.getElementById('continue');
+    if (continueBtn) {
+      continueBtn.addEventListener('click', () => {
+        continueBtn.remove();
+        const reflectEl = document.querySelector('.reflect');
+        if (reflectEl) reflectEl.remove();
+        const optDiv = document.querySelector('#game .options');
+        if (optDiv) optDiv.style.display = 'block';
+      });
+    }
+
+    document.querySelectorAll('#game .options button').forEach(btn => {
       btn.addEventListener('click', () => {
         const next = btn.getAttribute('data-next');
         if (next) render(next);

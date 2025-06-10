@@ -53,4 +53,6 @@ body {
 
 .reflect {
   margin-bottom: 20px;
+  font-style: italic;
+  text-align: center;
 }

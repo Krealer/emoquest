@@ -4,18 +4,24 @@
     "options": [
       { "text": "Ask if they’re okay", "next": "ask" },
       { "text": "Walk away", "next": "walk" }
-    ]
+    ],
+    "insight": "Witnessing distress often stirs our desire to help or to retreat.",
+    "reflect": "Do you usually approach or avoid people in visible pain?"
   },
   "ask": {
     "text": "They say they're having a hard day. What do you do?",
     "options": [
       { "text": "Listen silently", "next": "listen" },
       { "text": "Give advice", "next": "advice" }
-    ]
+    ],
+    "insight": "Checking in acknowledges their feelings and opens a path to empathy.",
+    "reflect": "When has a simple question helped you connect with someone?"
   },
   "walk": {
     "text": "You leave them to handle their emotions alone.",
-    "options": []
+    "options": [],
+    "insight": "Avoiding a tough moment can stem from discomfort or uncertainty.",
+    "reflect": "Think of a time you stepped away from someone's pain—what held you back?"
   },
   "listen": {
     "text": "They appreciate your silent support.",
