@@ -1,4 +1,14 @@
 const Tracker = {
+  EMOJI: {
+    empathy: '💛',
+    anxiety: '🌧',
+    forgiveness: '🌱',
+    boundaries: '🚧',
+    guilt: '🔥',
+    grief: '🖤',
+    acceptance: '🌸',
+    'social anxiety': '💦'
+  },
   load() {
     this.data = JSON.parse(localStorage.getItem('emoquest_tags') || '{}');
   },
@@ -11,11 +21,19 @@ const Tracker = {
     });
     this.save();
   },
+  label(tag) {
+    const emoji = this.EMOJI[tag] || '';
+    const name = tag.replace(/\b\w/g, c => c.toUpperCase());
+    return `${emoji} ${name}`.trim();
+  },
+  lines() {
+    return Object.entries(this.data)
+      .sort((a, b) => b[1] - a[1])
+      .map(([tag, count]) => `${this.label(tag)}: ${count}`);
+  },
   summary() {
-    const entries = Object.entries(this.data);
-    if (!entries.length) return '';
-    const parts = entries.map(([tag, count]) => `${tag} ${count}`);
-    return `You've explored ${parts.join(', ')}.`;
+    const lines = this.lines();
+    return lines.join('  ');
   }
 };
 
