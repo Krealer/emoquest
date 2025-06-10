@@ -2,6 +2,7 @@
   "start": {
     "text": "You find a stranger crying in the park.",
     "start": true,
+    "promptOfDay": true,
     "options": [
       { "text": "Ask if they’re okay", "next": "ask" },
       { "text": "Walk away", "next": "walk" }

@@ -9,7 +9,8 @@
     ],
     "insight": "Boundaries protect relationships—they don't destroy them.",
     "reflect": "Where are you afraid to set boundaries?",
-    "start": true
+    "start": true,
+    "promptOfDay": true
   },
   "boundaries-2": {
     "text": "You reply despite your fatigue. The conversation drags on and you're even more tired.",

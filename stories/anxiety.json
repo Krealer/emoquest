@@ -9,7 +9,8 @@
     ],
     "insight": "Naming anxiety is often the first step to softening it.",
     "reflect": "What would compassion for yourself look like right now?",
-    "start": true
+    "start": true,
+    "promptOfDay": true
   },
   "anxiety-2": {
     "text": "They nod with understanding and offer to breathe with you before you begin.",

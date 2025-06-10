@@ -8,7 +8,8 @@
     ],
     "insight": "Guilt is often a signal that you value the relationship.",
     "reflect": "How do you handle your own guilt?",
-    "start": true
+    "start": true,
+    "promptOfDay": true
   },
   "guilt-2": {
     "text": "You send a heartfelt apology. Your friend appreciates your honesty.",
