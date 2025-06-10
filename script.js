@@ -7,6 +7,10 @@
   const logModal = document.getElementById('log-modal');
   const logBody = document.getElementById('log-body');
   const closeLog = document.getElementById('close-log');
+  const memoryBtn = document.getElementById('view-memory');
+  const memoryModal = document.getElementById('memory-modal');
+  const memoryBody = document.getElementById('memory-body');
+  const closeMemory = document.getElementById('close-memory');
 
   if (logBtn) {
     logBtn.addEventListener('click', () => {
@@ -17,6 +21,19 @@
   if (closeLog) {
     closeLog.addEventListener('click', () => {
       logModal.style.display = 'none';
+    });
+  }
+
+  if (memoryBtn) {
+    memoryBtn.addEventListener('click', () => {
+      const list = Memory.list().map(f => f.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()));
+      memoryBody.innerHTML = list.length ? list.join('<br>') : '<p>No memories yet.</p>';
+      memoryModal.style.display = 'flex';
+    });
+  }
+  if (closeMemory) {
+    closeMemory.addEventListener('click', () => {
+      memoryModal.style.display = 'none';
     });
   }
 
@@ -83,15 +100,23 @@
   function render(nodeId) {
     const node = storyMap[nodeId];
     if (!node) return;
+    if (node.condition && !Memory.has(node.condition)) return;
+    Memory.remember(node.remember);
     Tracker.increment(node.tags);
     currentNode = nodeId;
     localStorage.setItem('emoquest_current_node', nodeId);
 
     const optionsHtml = (node.options || [])
-      .map(opt => `<button data-next="${opt.next}">${opt.text}</button>`)
+      .filter(opt => !opt.condition || Memory.has(opt.condition))
+      .map(opt => {
+        const mem = opt.remember ? ` data-remember="${opt.remember}"` : '';
+        return `<button data-next="${opt.next}"${mem}>${opt.text}</button>`;
+      })
       .join('');
 
     let html = `<div class="text">${node.text}</div>`;
+    const mirror = Memory.reflection();
+    if (mirror) html += `<div class="reflect">${mirror}</div>`;
     if (node.insight) html += `<div class="insight">${node.insight}</div>`;
 
     if (node.reflect) {
@@ -117,6 +142,8 @@
 
     document.querySelectorAll('#game .options button').forEach(btn => {
       btn.addEventListener('click', () => {
+        const mem = btn.getAttribute('data-remember');
+        if (mem) Memory.remember(mem);
         const next = btn.getAttribute('data-next');
         if (next) render(next);
       });
