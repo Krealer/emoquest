@@ -11,6 +11,8 @@
   const memoryModal = document.getElementById('memory-modal');
   const memoryBody = document.getElementById('memory-body');
   const closeMemory = document.getElementById('close-memory');
+  const identityModal = document.getElementById('identity-modal');
+  const setIdentityBtn = document.getElementById('set-identity');
 
   if (logBtn) {
     logBtn.addEventListener('click', () => {
@@ -37,6 +39,27 @@
     });
   }
 
+  function showIdentityPrompt() {
+    if (identityModal) identityModal.style.display = 'flex';
+  }
+
+  if (setIdentityBtn) {
+    setIdentityBtn.addEventListener('click', showIdentityPrompt);
+  }
+
+  if (identityModal) {
+    identityModal.addEventListener('click', e => {
+      const btn = e.target.closest('button[data-identity]');
+      if (btn) {
+        const id = btn.getAttribute('data-identity');
+        localStorage.setItem('emoquest-identity', id);
+        identity = id;
+        identityModal.style.display = 'none';
+        render(currentNode);
+      }
+    });
+  }
+
   if (promptBtn) {
     promptBtn.addEventListener('click', () => {
       if (!todaysPrompt) return;
@@ -51,6 +74,7 @@
   let tagStarts = {};
   let promptList = [];
   let todaysPrompt = null;
+  let identity = localStorage.getItem('emoquest-identity');
 
   async function loadStories() {
     const files = await fetch('stories/index.json').then(r => r.json());
@@ -101,26 +125,45 @@
     const node = storyMap[nodeId];
     if (!node) return;
     if (node.condition && !Memory.has(node.condition)) return;
+    if (node.identity && identity && !node.identity.includes(identity)) return;
+    if (node.identity && !identity) return;
     Memory.remember(node.remember);
     Tracker.increment(node.tags);
     currentNode = nodeId;
     localStorage.setItem('emoquest_current_node', nodeId);
 
     const optionsHtml = (node.options || [])
-      .filter(opt => !opt.condition || Memory.has(opt.condition))
+      .filter(opt => {
+        if (opt.condition && !Memory.has(opt.condition)) return false;
+        if (opt.identity && identity && !opt.identity.includes(identity)) return false;
+        if (opt.identity && !identity) return false;
+        return true;
+      })
       .map(opt => {
         const mem = opt.remember ? ` data-remember="${opt.remember}"` : '';
         return `<button data-next="${opt.next}"${mem}>${opt.text}</button>`;
       })
       .join('');
 
-    let html = `<div class="text">${node.text}</div>`;
+    let text = node.text || '';
+    if (node.identityVariants && identity && node.identityVariants[identity]) {
+      text += ' ' + node.identityVariants[identity];
+    }
+    let html = `<div class="text">${text}</div>`;
     const mirror = Memory.reflection();
     if (mirror) html += `<div class="reflect">${mirror}</div>`;
-    if (node.insight) html += `<div class="insight">${node.insight}</div>`;
+    let insight = node.insight || '';
+    if (node.insightVariants && identity && node.insightVariants[identity]) {
+      insight += (insight ? ' ' : '') + node.insightVariants[identity];
+    }
+    if (insight) html += `<div class="insight">${insight}</div>`;
 
-    if (node.reflect) {
-      html += `<div class="reflect">${node.reflect}</div>`;
+    let reflect = node.reflect || '';
+    if (node.reflectVariants && identity && node.reflectVariants[identity]) {
+      reflect += (reflect ? ' ' : '') + node.reflectVariants[identity];
+    }
+    if (reflect) {
+      html += `<div class="reflect">${reflect}</div>`;
       html += `<button id="continue">Next</button>`;
       html += `<div class="options" style="display:none">${optionsHtml}</div>`;
     } else {
@@ -179,6 +222,10 @@
   const params = new URLSearchParams(location.search);
   currentNode = params.get('node') || localStorage.getItem('emoquest_current_node') || pickStart();
   render(currentNode);
+
+  if (!identity) {
+    showIdentityPrompt();
+  }
 
   window.EmoQuest = {
     render,
