@@ -1,0 +1,36 @@
+{
+  "start": {
+    "text": "You see a friend isolate themselves during lunch.",
+    "tags": ["empathy", "social anxiety"],
+    "options": [
+      { "text": "Sit silently nearby", "next": "companion" },
+      { "text": "Invite them to join others", "next": "invite" }
+    ],
+    "insight": "Sometimes, presence without pressure is more comforting than words.",
+    "reflect": "When have you needed quiet support more than advice?"
+  },
+  "companion": {
+    "text": "You quietly share the space. After a while, they glance at you with a faint smile.",
+    "tags": ["empathy"],
+    "options": [
+      { "text": "Ask how they're feeling", "next": "talk" },
+      { "text": "Continue sitting in silence", "next": "silence" }
+    ]
+  },
+  "invite": {
+    "text": "They hesitate but agree to come along. With others around, they slowly relax.",
+    "tags": ["empathy"],
+    "options": [],
+    "reflect": "How do you know when to encourage someone to join in?"
+  },
+  "talk": {
+    "text": "They open up about feeling overwhelmed. Your listening ear eases their worry.",
+    "tags": ["empathy", "anxiety"],
+    "options": []
+  },
+  "silence": {
+    "text": "You both sit quietly, sharing a moment of calm.",
+    "tags": ["empathy"],
+    "options": []
+  }
+}
