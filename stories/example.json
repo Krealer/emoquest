@@ -3,10 +3,16 @@
     "text": "You find a stranger crying in the park.",
     "start": true,
     "promptOfDay": true,
+    "identityVariants": {
+      "empath": "You immediately sense their sadness.",
+      "quiet": "You pause, unsure if you should interrupt.",
+      "protector": "You scan the area for whoever caused this."
+    },
     "options": [
       { "text": "Ask if they’re okay", "next": "ask", "remember": "offered-help" },
       { "text": "Walk away", "next": "walk", "remember": "avoided-conflict" },
-      { "text": "Approach them this time", "next": "return", "condition": "avoided-conflict" }
+      { "text": "Approach them this time", "next": "return", "condition": "avoided-conflict" },
+      { "text": "Look for the cause", "next": "search", "identity": ["protector"] }
     ],
     "insight": "Witnessing distress often stirs our desire to help or to retreat.",
     "reflect": "Do you usually approach or avoid people in visible pain?"
@@ -18,13 +24,29 @@
       { "text": "Give advice", "next": "advice" }
     ],
     "insight": "Checking in acknowledges their feelings and opens a path to empathy.",
-    "reflect": "When has a simple question helped you connect with someone?"
+    "reflect": "When has a simple question helped you connect with someone?",
+    "reflectVariants": {
+      "overthinker": "Notice how your mind races for the perfect words.",
+      "empath": "You feel their pain as if it were your own." 
+    }
   },
   "walk": {
     "text": "You leave them to handle their emotions alone.",
     "options": [],
     "insight": "Avoiding a tough moment can stem from discomfort or uncertainty.",
-    "reflect": "Think of a time you stepped away from someone's pain—what held you back?"
+    "reflect": "Think of a time you stepped away from someone's pain—what held you back?",
+    "insightVariants": {
+      "quiet": "Silence can feel safer than stumbling over words.",
+      "chameleon": "You worry how others would see your involvement." 
+    }
+  },
+  "search": {
+    "text": "You scan the park for anyone suspicious but find no obvious threat.",
+    "identity": ["protector"],
+    "options": [
+      { "text": "Return to them", "next": "ask" }
+    ],
+    "insight": "Sometimes protecting means simply being present." 
   },
   "listen": {
     "text": "They appreciate your silent support.",
