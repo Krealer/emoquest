@@ -3,6 +3,7 @@
   const progressEl = document.getElementById('progress');
   const logBtn = document.getElementById('view-log');
   const reloadBtn = document.getElementById('reload-stories');
+  const promptBtn = document.getElementById('start-prompt');
   const logModal = document.getElementById('log-modal');
   const logBody = document.getElementById('log-body');
   const closeLog = document.getElementById('close-log');
@@ -19,13 +20,26 @@
     });
   }
 
+  if (promptBtn) {
+    promptBtn.addEventListener('click', () => {
+      if (!todaysPrompt) return;
+      const node = storyMap[todaysPrompt];
+      const firstTag = (node.tags || [])[0];
+      progressEl.textContent = `\u{1F31E} Today’s Emotional Prompt: ${Tracker.label(firstTag)}`;
+      render(todaysPrompt);
+    });
+  }
+
   let storyMap = {};
   let tagStarts = {};
+  let promptList = [];
+  let todaysPrompt = null;
 
   async function loadStories() {
     const files = await fetch('stories/index.json').then(r => r.json());
     const newMap = {};
     const startMap = {};
+    const prompts = [];
     for (const f of files) {
       const data = await fetch(`stories/${f}.json`).then(r => r.json());
       Object.entries(data).forEach(([id, node]) => {
@@ -34,14 +48,23 @@
             if (!startMap[tag]) startMap[tag] = id;
           });
         }
+        if (node.promptOfDay) {
+          prompts.push(id);
+        }
       });
       Object.assign(newMap, data);
     }
     storyMap = newMap;
     tagStarts = startMap;
+    promptList = prompts;
   }
 
   await loadStories();
+
+  if (promptList.length) {
+    const day = new Date().getDate();
+    todaysPrompt = promptList[day % promptList.length];
+  }
 
   let currentNode = 'start';
 
@@ -116,6 +139,12 @@
     reloadBtn.style.display = 'block';
     reloadBtn.addEventListener('click', async () => {
       await loadStories();
+      if (promptList.length) {
+        const day = new Date().getDate();
+        todaysPrompt = promptList[day % promptList.length];
+      } else {
+        todaysPrompt = null;
+      }
       render(currentNode);
     });
   }

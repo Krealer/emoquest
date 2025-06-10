@@ -9,7 +9,8 @@
     ],
     "insight": "Unspoken resentment corrodes quiet places in us.",
     "reflect": "When is it hardest for you to speak up?",
-    "start": true
+    "start": true,
+    "promptOfDay": true
   },
   "resentment-2": {
     "text": "You consider addressing the imbalance with your teacher after class.",
