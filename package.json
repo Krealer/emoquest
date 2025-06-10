@@ -1,0 +1,7 @@
+{
+  "name": "emoquest",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "node lint.js"
+  }
+}
