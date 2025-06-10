@@ -17,12 +17,12 @@
   if (logBtn) {
     logBtn.addEventListener('click', () => {
       logBody.innerHTML = Tracker.lines().join('<br>');
-      logModal.style.display = 'flex';
+      Modal.open(logModal);
     });
   }
   if (closeLog) {
     closeLog.addEventListener('click', () => {
-      logModal.style.display = 'none';
+      Modal.close(logModal);
     });
   }
 
@@ -30,17 +30,17 @@
     memoryBtn.addEventListener('click', () => {
       const list = Memory.list().map(f => f.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()));
       memoryBody.innerHTML = list.length ? list.join('<br>') : '<p>No memories yet.</p>';
-      memoryModal.style.display = 'flex';
+      Modal.open(memoryModal);
     });
   }
   if (closeMemory) {
     closeMemory.addEventListener('click', () => {
-      memoryModal.style.display = 'none';
+      Modal.close(memoryModal);
     });
   }
 
   function showIdentityPrompt() {
-    if (identityModal) identityModal.style.display = 'flex';
+    if (identityModal) Modal.open(identityModal);
   }
 
   if (setIdentityBtn) {
@@ -54,7 +54,7 @@
         const id = btn.getAttribute('data-identity');
         localStorage.setItem('emoquest-identity', id);
         identity = id;
-        identityModal.style.display = 'none';
+        Modal.close(identityModal);
         render(currentNode);
       }
     });
