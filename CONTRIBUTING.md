@@ -1,40 +1,45 @@
 # Contributing to EmoQuest
 
-Thank you for your interest in expanding EmoQuest. This project invites gentle, reflective storytelling about real emotions. All contributions should keep the tone inclusive and nonjudgmental.
+Thank you for helping build stories for EmoQuest. This project thrives on short,
+reflective scenarios about real emotions. Please keep your tone kind and avoid
+placing "good" versus "bad" labels on the player.
 
-## Story Node Format
-Stories live in `stories/` as JSON files. Each node has the following structure:
+## Folder Layout
+All story files live in the `stories/` directory. Each file represents a single
+emotional theme and is listed in `stories/index.json` so the engine can load
+it automatically.
+
+## Node Structure
+Every entry in a story file is a node keyed by a unique ID:
 
 ```json
-"nodeId": {
+"guilt-apology-1": {
   "text": "Prompt shown to the player.",
-  "tags": ["empathy", "anxiety"],
+  "tags": ["guilt"],
   "options": [
-    { "text": "Choice text", "next": "nextNodeId" }
+    { "text": "Choice text", "next": "guilt-apology-2" }
   ],
   "insight": "(optional) short educational note",
-  "reflect": "(optional) question encouraging introspection"
+  "reflect": "(optional) question encouraging introspection",
+  "start": true
 }
 ```
 
-## Naming Conventions
-* Files use lowercase words separated by dashes, e.g. `anxiety-journey.json`.
-* Node IDs are short and descriptive.
-* Tags should come from the list below.
+### Required Fields
+* `text` – the line displayed to the player
+* `options` – array of choices with `text` and `next`
+* `tags` – list of emotional themes
 
-## Writing Tone
-Keep prompts brief, gentle and focused on real-world feelings. Avoid overt game mechanics or obvious moral judgments. Players should pause and consider their own experiences.
+### Optional Fields
+* `insight` – brief educational note
+* `reflect` – open-ended question
+* `start` – mark a node as a possible starting point
 
-## Theme Tags
-```
-anxiety
-empathy
-forgiveness
-boundaries
-guilt
-grief
-acceptance
-social anxiety
-```
+### Naming
+* File names use lowercase words separated by dashes, e.g. `guilt.json`.
+* Node IDs follow the format `theme-slug`, for example `guilt-apology-1`.
 
-Add new tags sparingly and only when needed to capture a distinct theme.
+## Tone Guidelines
+Keep prompts concise, gentle and reflective. Encourage exploration of feelings
+rather than judging actions. When providing choices, try to offer meaningful
+perspectives instead of binary right/wrong paths.

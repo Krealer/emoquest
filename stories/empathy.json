@@ -1,6 +1,7 @@
 {
   "start": {
     "text": "You see a friend isolate themselves during lunch.",
+    "start": true,
     "tags": ["empathy", "social anxiety"],
     "options": [
       { "text": "Sit silently nearby", "next": "companion" },

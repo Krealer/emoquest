@@ -2,6 +2,7 @@
   const gameEl = document.getElementById('game');
   const progressEl = document.getElementById('progress');
   const logBtn = document.getElementById('view-log');
+  const reloadBtn = document.getElementById('reload-stories');
   const logModal = document.getElementById('log-modal');
   const logBody = document.getElementById('log-body');
   const closeLog = document.getElementById('close-log');
@@ -18,18 +19,21 @@
     });
   }
 
-  const storyNames = await fetch('stories/list.json').then(r => r.json());
-  const STORIES = {};
-  for (const name of storyNames) {
-    STORIES[name] = await fetch(`stories/${name}.json`).then(r => r.json());
+  let storyMap = {};
+
+  async function loadStories() {
+    const files = await fetch('stories/index.json').then(r => r.json());
+    const newMap = {};
+    for (const f of files) {
+      const data = await fetch(`stories/${f}.json`).then(r => r.json());
+      Object.assign(newMap, data);
+    }
+    storyMap = newMap;
   }
 
-  let currentStory = null;
+  await loadStories();
+
   let currentNode = 'start';
-
-  function titleCase(str) {
-    return str.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-  }
 
   function notifyNewTags(tags = []) {
     if (!tags.length) {
@@ -44,12 +48,11 @@
   }
 
   function render(nodeId) {
-    const story = STORIES[currentStory];
-    const node = story[nodeId];
+    const node = storyMap[nodeId];
     if (!node) return;
     Tracker.increment(node.tags);
     currentNode = nodeId;
-    localStorage.setItem(`emoquest_current_${currentStory}`, nodeId);
+    localStorage.setItem('emoquest_current_node', nodeId);
 
     const optionsHtml = (node.options || [])
       .map(opt => `<button data-next="${opt.next}">${opt.text}</button>`)
@@ -89,29 +92,25 @@
     notifyNewTags(node.tags);
   }
 
-  function startStory(name) {
-    currentStory = name;
-    localStorage.setItem('emoquest_last_story', name);
-    currentNode = localStorage.getItem(`emoquest_current_${name}`) || 'start';
-    render(currentNode);
+  function pickStart() {
+    if (storyMap['start']) return 'start';
+    const starters = Object.keys(storyMap).filter(id => storyMap[id].start);
+    if (starters.length) {
+      const i = Math.floor(Math.random() * starters.length);
+      return starters[i];
+    }
+    return Object.keys(storyMap)[0];
   }
 
-  function showMenu() {
-    const buttons = storyNames
-      .map(n => `<button data-story="${n}">${titleCase(n)}</button>`)
-      .join('');
-    gameEl.innerHTML = `<div class="options">${buttons}</div>`;
-    document.querySelectorAll('[data-story]').forEach(btn => {
-      btn.addEventListener('click', () => startStory(btn.getAttribute('data-story')));
+  if (reloadBtn) {
+    reloadBtn.style.display = 'block';
+    reloadBtn.addEventListener('click', async () => {
+      await loadStories();
+      render(currentNode);
     });
-    notifyNewTags([]);
   }
 
   const params = new URLSearchParams(location.search);
-  const chosen = params.get('story') || localStorage.getItem('emoquest_last_story');
-  if (chosen && STORIES[chosen]) {
-    startStory(chosen);
-  } else {
-    showMenu();
-  }
+  currentNode = params.get('node') || localStorage.getItem('emoquest_current_node') || pickStart();
+  render(currentNode);
 })();

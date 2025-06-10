@@ -1,0 +1,23 @@
+{
+  "guilt-1": {
+    "text": "You realize you forgot your friend’s birthday.",
+    "tags": ["guilt"],
+    "options": [
+      { "text": "Apologize", "next": "guilt-2" },
+      { "text": "Pretend you didn’t know", "next": "guilt-3" }
+    ],
+    "insight": "Guilt is often a signal that you value the relationship.",
+    "reflect": "How do you handle your own guilt?",
+    "start": true
+  },
+  "guilt-2": {
+    "text": "You send a heartfelt apology. Your friend appreciates your honesty.",
+    "tags": ["guilt", "forgiveness"],
+    "options": []
+  },
+  "guilt-3": {
+    "text": "You stay quiet, but the guilt lingers throughout the day.",
+    "tags": ["guilt"],
+    "options": []
+  }
+}
