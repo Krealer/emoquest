@@ -10,6 +10,7 @@
   <div id="game"></div>
   <div id="progress" aria-live="polite"></div>
   <button id="view-log">View My Log</button>
+  <button id="view-journey">My Journey</button>
   <div id="log-modal">
     <div class="log-content">
       <h2>Your Emotional Log</h2>
@@ -17,9 +18,20 @@
       <button id="close-log">Close</button>
     </div>
   </div>
+
+  <div id="dashboard">
+    <div class="dashboard-content">
+      <h2>Your Journey</h2>
+      <div id="tag-history"></div>
+      <div id="unexplored"></div>
+      <div id="journey-summary"></div>
+      <button id="close-dashboard">Close</button>
+    </div>
+  </div>
   <button id="reload-stories" style="display:none">Reload Stories</button>
   <script src="tracker.js"></script>
   <script src="insights.js"></script>
+  <script src="dashboard.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

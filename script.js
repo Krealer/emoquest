@@ -20,15 +20,25 @@
   }
 
   let storyMap = {};
+  let tagStarts = {};
 
   async function loadStories() {
     const files = await fetch('stories/index.json').then(r => r.json());
     const newMap = {};
+    const startMap = {};
     for (const f of files) {
       const data = await fetch(`stories/${f}.json`).then(r => r.json());
+      Object.entries(data).forEach(([id, node]) => {
+        if (node.start && Array.isArray(node.tags)) {
+          node.tags.forEach(tag => {
+            if (!startMap[tag]) startMap[tag] = id;
+          });
+        }
+      });
       Object.assign(newMap, data);
     }
     storyMap = newMap;
+    tagStarts = startMap;
   }
 
   await loadStories();
@@ -113,4 +123,9 @@
   const params = new URLSearchParams(location.search);
   currentNode = params.get('node') || localStorage.getItem('emoquest_current_node') || pickStart();
   render(currentNode);
+
+  window.EmoQuest = {
+    render,
+    tagStarts
+  };
 })();
