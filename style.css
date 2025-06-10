@@ -3,6 +3,7 @@ body {
   margin: 0;
   padding: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
@@ -16,6 +17,7 @@ body {
   background: white;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   border-radius: 8px;
+  margin-bottom: 20px;
 }
 
 .text {
@@ -31,7 +33,24 @@ body {
   font-size: 1rem;
 }
 
+#progress {
+  font-size: 0.9rem;
+  color: #444;
+  max-width: 600px;
+  width: 90vw;
+  text-align: center;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+.insight {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.reflect {
+  margin-bottom: 20px;
 }
