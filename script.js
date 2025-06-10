@@ -81,8 +81,12 @@
     const newMap = {};
     const startMap = {};
     const prompts = [];
-    for (const f of files) {
-      const data = await fetch(`stories/${f}.json`).then(r => r.json());
+
+    const storyData = await Promise.all(
+      files.map(f => fetch(`stories/${f}.json`).then(r => r.json()))
+    );
+
+    for (const data of storyData) {
       Object.entries(data).forEach(([id, node]) => {
         if (node.start && Array.isArray(node.tags)) {
           node.tags.forEach(tag => {
