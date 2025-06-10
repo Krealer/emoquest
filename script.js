@@ -150,45 +150,78 @@
     currentNode = nodeId;
     localStorage.setItem('emoquest_current_node', nodeId);
 
-    const optionsHtml = (node.options || [])
+    const optionData = (node.options || [])
       .filter(opt => {
         if (opt.condition && !Memory.has(opt.condition)) return false;
         if (opt.identity && identity && !opt.identity.includes(identity)) return false;
         if (opt.identity && !identity) return false;
         return true;
-      })
-      .map(opt => {
-        const mem = opt.remember ? ` data-remember="${opt.remember}"` : '';
-        return `<button data-next="${opt.next}"${mem}>${opt.text}</button>`;
-      })
-      .join('');
+      });
 
     let text = node.text || '';
     if (node.identityVariants && identity && node.identityVariants[identity]) {
       text += ' ' + node.identityVariants[identity];
     }
-    let html = `<div class="text">${text}</div>`;
+
+    // Clear game area
+    gameEl.innerHTML = '';
+
+    const textDiv = document.createElement('div');
+    textDiv.className = 'text';
+    textDiv.textContent = text;
+    gameEl.appendChild(textDiv);
+
     const mirror = Memory.reflection();
-    if (mirror) html += `<div class="reflect">${mirror}</div>`;
+    if (mirror) {
+      const mirrorDiv = document.createElement('div');
+      mirrorDiv.className = 'reflect';
+      mirrorDiv.textContent = mirror;
+      gameEl.appendChild(mirrorDiv);
+    }
+
     let insight = node.insight || '';
     if (node.insightVariants && identity && node.insightVariants[identity]) {
       insight += (insight ? ' ' : '') + node.insightVariants[identity];
     }
-    if (insight) html += `<div class="insight">${insight}</div>`;
+    if (insight) {
+      const insightDiv = document.createElement('div');
+      insightDiv.className = 'insight';
+      insightDiv.textContent = insight;
+      gameEl.appendChild(insightDiv);
+    }
 
     let reflect = node.reflect || '';
     if (node.reflectVariants && identity && node.reflectVariants[identity]) {
       reflect += (reflect ? ' ' : '') + node.reflectVariants[identity];
     }
+
+    let optsDiv = document.createElement('div');
+    optsDiv.className = 'options';
+
     if (reflect) {
-      html += `<div class="reflect">${reflect}</div>`;
-      html += `<button id="continue">Next</button>`;
-      html += `<div class="options" style="display:none">${optionsHtml}</div>`;
+      const reflectDiv = document.createElement('div');
+      reflectDiv.className = 'reflect';
+      reflectDiv.textContent = reflect;
+      gameEl.appendChild(reflectDiv);
+
+      const contBtn = document.createElement('button');
+      contBtn.id = 'continue';
+      contBtn.textContent = 'Next';
+      gameEl.appendChild(contBtn);
+
+      optsDiv.style.display = 'none';
+      gameEl.appendChild(optsDiv);
     } else {
-      html += `<div class="options">${optionsHtml}</div>`;
+      gameEl.appendChild(optsDiv);
     }
 
-    gameEl.innerHTML = html;
+    optionData.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.setAttribute('data-next', opt.next);
+      if (opt.remember) btn.setAttribute('data-remember', opt.remember);
+      btn.textContent = opt.text;
+      optsDiv.appendChild(btn);
+    });
 
     const continueBtn = document.getElementById('continue');
     if (continueBtn) {

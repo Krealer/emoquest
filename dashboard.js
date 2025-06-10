@@ -29,13 +29,19 @@
     const explored = lines.filter(l => l.count > 0)
       .sort((a,b) => b.count - a.count);
     tagHistory.innerHTML = explored.length ?
-      explored.map(l => `<div class="tag-line" data-tag="${l.tag}">${l.label} — ${l.count} ${progressBar(l.count)}</div>`).join('') :
+      explored.map(l => {
+        const title = INSIGHTS[l.tag] ? ` title="${INSIGHTS[l.tag]}"` : '';
+        return `<div class="tag-line" data-tag="${l.tag}"${title}>${l.label} — ${l.count} ${progressBar(l.count)}</div>`;
+      }).join('') :
       '<p>No themes explored yet.</p>';
 
     // unexplored suggestions
     const missing = lines.filter(l => l.count === 0);
     unexplored.innerHTML = missing.length ?
-      missing.map(l => `<div>${Tracker.EMOJI[l.tag] || ''} You haven’t explored ${l.tag} yet.</div>`).join('') :
+      missing.map(l => {
+        const title = INSIGHTS[l.tag] ? ` title="${INSIGHTS[l.tag]}"` : '';
+        return `<div${title}>${Tracker.EMOJI[l.tag] || ''} You haven’t explored ${l.tag} yet.</div>`;
+      }).join('') :
       '<div>You’ve touched every listed emotion.</div>';
 
     // reflection summary
