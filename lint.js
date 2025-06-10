@@ -43,6 +43,15 @@ function lint() {
           }
         });
       }
+      if (!Array.isArray(node.tags)) {
+        fail(`${file} -> ${id} missing 'tags' array`);
+      } else {
+        node.tags.forEach((tag, j) => {
+          if (typeof tag !== 'string') {
+            fail(`${file} -> ${id}.tags[${j}] must be string`);
+          }
+        });
+      }
     });
   }
 }

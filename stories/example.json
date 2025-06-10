@@ -3,6 +3,7 @@
     "text": "You find a stranger crying in the park.",
     "start": true,
     "promptOfDay": true,
+    "tags": ["example"],
     "identityVariants": {
       "empath": "You immediately sense their sadness.",
       "quiet": "You pause, unsure if you should interrupt.",
@@ -19,6 +20,7 @@
   },
   "ask": {
     "text": "They say they're having a hard day. What do you do?",
+    "tags": ["example"],
     "options": [
       { "text": "Listen silently", "next": "listen" },
       { "text": "Give advice", "next": "advice" }
@@ -32,6 +34,7 @@
   },
   "walk": {
     "text": "You leave them to handle their emotions alone.",
+    "tags": ["example"],
     "options": [],
     "insight": "Avoiding a tough moment can stem from discomfort or uncertainty.",
     "reflect": "Think of a time you stepped away from someone's pain—what held you back?",
@@ -43,6 +46,7 @@
   "search": {
     "text": "You scan the park for anyone suspicious but find no obvious threat.",
     "identity": ["protector"],
+    "tags": ["example"],
     "options": [
       { "text": "Return to them", "next": "ask" }
     ],
@@ -50,15 +54,18 @@
   },
   "listen": {
     "text": "They appreciate your silent support.",
+    "tags": ["example"],
     "options": []
   },
   "advice": {
     "text": "They thank you for your words.",
+    "tags": ["example"],
     "options": []
   },
   "return": {
     "text": "You’ve been here before. This time, you speak up.",
     "condition": "avoided-conflict",
+    "tags": ["example"],
     "options": [
       { "text": "Offer a listening ear", "next": "listen", "remember": "faced-fear" }
     ],
