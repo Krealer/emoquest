@@ -1,5 +1,5 @@
 {
-  "start": {
+  "empathy-start": {
     "text": "You see a friend isolate themselves during lunch.",
     "start": true,
     "promptOfDay": true,

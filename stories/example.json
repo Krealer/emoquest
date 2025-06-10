@@ -1,5 +1,5 @@
 {
-  "start": {
+  "example-start": {
     "text": "You find a stranger crying in the park.",
     "start": true,
     "promptOfDay": true,
