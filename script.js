@@ -227,8 +227,7 @@
     if (continueBtn) {
       continueBtn.addEventListener('click', () => {
         continueBtn.remove();
-        const reflectEl = document.querySelector('.reflect');
-        if (reflectEl) reflectEl.remove();
+        document.querySelectorAll('.reflect').forEach(el => el.remove());
         const optDiv = document.querySelector('#game .options');
         if (optDiv) optDiv.style.display = 'block';
       });
