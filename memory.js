@@ -1,11 +1,21 @@
 const Memory = {
   load() {
-    this.flags = JSON.parse(localStorage.getItem('emoquest-memory') || '[]');
-    this.counts = JSON.parse(localStorage.getItem('emoquest-memory-counts') || '{}');
+    try {
+      this.flags = JSON.parse(localStorage.getItem('emoquest-memory') || '[]');
+      this.counts = JSON.parse(localStorage.getItem('emoquest-memory-counts') || '{}');
+    } catch (err) {
+      console.warn('Failed to read localStorage', err);
+      this.flags = [];
+      this.counts = {};
+    }
   },
   save() {
-    localStorage.setItem('emoquest-memory', JSON.stringify(this.flags));
-    localStorage.setItem('emoquest-memory-counts', JSON.stringify(this.counts));
+    try {
+      localStorage.setItem('emoquest-memory', JSON.stringify(this.flags));
+      localStorage.setItem('emoquest-memory-counts', JSON.stringify(this.counts));
+    } catch (err) {
+      console.warn('Failed to write localStorage', err);
+    }
   },
   remember(flag) {
     if (!flag) return;

@@ -14,6 +14,23 @@
   const identityModal = document.getElementById('identity-modal');
   const setIdentityBtn = document.getElementById('set-identity');
 
+  function safeGet(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (err) {
+      console.warn('Failed to read localStorage', err);
+      return null;
+    }
+  }
+
+  function safeSet(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch (err) {
+      console.warn('Failed to write localStorage', err);
+    }
+  }
+
   if (logBtn) {
     logBtn.addEventListener('click', () => {
       logBody.innerHTML = Tracker.lines().join('<br>');
@@ -52,7 +69,7 @@
       const btn = e.target.closest('button[data-identity]');
       if (btn) {
         const id = btn.getAttribute('data-identity');
-        localStorage.setItem('emoquest-identity', id);
+        safeSet('emoquest-identity', id);
         identity = id;
         Modal.close(identityModal);
         render(currentNode);
@@ -74,7 +91,7 @@
   let tagStarts = {};
   let promptList = [];
   let todaysPrompt = null;
-  let identity = localStorage.getItem('emoquest-identity');
+  let identity = safeGet('emoquest-identity');
 
   async function loadStories() {
     try {
@@ -148,7 +165,7 @@
     Memory.remember(node.remember);
     Tracker.increment(node.tags);
     currentNode = nodeId;
-    localStorage.setItem('emoquest_current_node', nodeId);
+    safeSet('emoquest_current_node', nodeId);
 
     const optionData = (node.options || [])
       .filter(opt => {
@@ -271,7 +288,7 @@
   }
 
   const params = new URLSearchParams(location.search);
-  currentNode = params.get('node') || localStorage.getItem('emoquest_current_node') || pickStart();
+  currentNode = params.get('node') || safeGet('emoquest_current_node') || pickStart();
   render(currentNode);
 
   if (!identity) {
