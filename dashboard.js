@@ -54,11 +54,11 @@
 
   dashBtn.addEventListener('click', () => {
     update();
-    dash.style.display = 'flex';
+    Modal.open(dash);
   });
 
   closeBtn.addEventListener('click', () => {
-    dash.style.display = 'none';
+    Modal.close(dash);
   });
 
   // tag click jump to story
@@ -68,7 +68,7 @@
       const tag = el.getAttribute('data-tag');
       const start = window.EmoQuest.tagStarts[tag];
       if (start) {
-        dash.style.display = 'none';
+        Modal.close(dash);
         window.EmoQuest.render(start);
       }
     }

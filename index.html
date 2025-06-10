@@ -14,7 +14,7 @@
   <button id="view-memory">My Memories</button>
   <button id="view-journey">My Journey</button>
   <button id="set-identity">Choose Identity</button>
-  <div id="log-modal">
+  <div id="log-modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="log-content">
       <h2>Your Emotional Log</h2>
       <div id="log-body"></div>
@@ -22,7 +22,7 @@
     </div>
   </div>
 
-  <div id="memory-modal">
+  <div id="memory-modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="log-content">
       <h2>Your Memories</h2>
       <div id="memory-body"></div>
@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <div id="identity-modal">
+  <div id="identity-modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="log-content">
       <h2>Who are you today?</h2>
       <p>(Choose the trait that best fits you right now)</p>
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div id="dashboard">
+  <div id="dashboard" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="dashboard-content">
       <h2>Your Journey</h2>
       <div id="tag-history"></div>
@@ -57,6 +57,7 @@
   <script src="tracker.js"></script>
   <script src="insights.js"></script>
   <script src="memory.js"></script>
+  <script src="modal.js"></script>
   <script src="dashboard.js"></script>
   <script src="script.js"></script>
 </body>
