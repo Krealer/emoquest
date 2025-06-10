@@ -256,7 +256,7 @@
     return Object.keys(storyMap)[0];
   }
 
-  if (reloadBtn) {
+  if (reloadBtn && /localhost|127\.0\.0\.1/.test(location.hostname)) {
     reloadBtn.style.display = 'block';
     reloadBtn.addEventListener('click', async () => {
       const ok = await loadStories();
