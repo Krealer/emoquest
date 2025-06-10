@@ -4,8 +4,9 @@
     "start": true,
     "promptOfDay": true,
     "options": [
-      { "text": "Ask if they’re okay", "next": "ask" },
-      { "text": "Walk away", "next": "walk" }
+      { "text": "Ask if they’re okay", "next": "ask", "remember": "offered-help" },
+      { "text": "Walk away", "next": "walk", "remember": "avoided-conflict" },
+      { "text": "Approach them this time", "next": "return", "condition": "avoided-conflict" }
     ],
     "insight": "Witnessing distress often stirs our desire to help or to retreat.",
     "reflect": "Do you usually approach or avoid people in visible pain?"
@@ -32,5 +33,13 @@
   "advice": {
     "text": "They thank you for your words.",
     "options": []
+  },
+  "return": {
+    "text": "You’ve been here before. This time, you speak up.",
+    "condition": "avoided-conflict",
+    "options": [
+      { "text": "Offer a listening ear", "next": "listen", "remember": "faced-fear" }
+    ],
+    "reflect": "What changed between now and the last time?"
   }
 }

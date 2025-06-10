@@ -11,12 +11,21 @@
   <div id="progress" aria-live="polite"></div>
   <button id="start-prompt">🌞 Start Today’s Prompt</button>
   <button id="view-log">View My Log</button>
+  <button id="view-memory">My Memories</button>
   <button id="view-journey">My Journey</button>
   <div id="log-modal">
     <div class="log-content">
       <h2>Your Emotional Log</h2>
       <div id="log-body"></div>
       <button id="close-log">Close</button>
+    </div>
+  </div>
+
+  <div id="memory-modal">
+    <div class="log-content">
+      <h2>Your Memories</h2>
+      <div id="memory-body"></div>
+      <button id="close-memory">Close</button>
     </div>
   </div>
 
@@ -32,6 +41,7 @@
   <button id="reload-stories" style="display:none">Reload Stories</button>
   <script src="tracker.js"></script>
   <script src="insights.js"></script>
+  <script src="memory.js"></script>
   <script src="dashboard.js"></script>
   <script src="script.js"></script>
 </body>
