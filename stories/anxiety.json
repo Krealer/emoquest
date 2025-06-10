@@ -1,0 +1,49 @@
+{
+  "anxiety-1": {
+    "text": "You're about to present in class. Your hands shake and a classmate whispers, 'Are you okay?'",
+    "tags": ["anxiety"],
+    "options": [
+      { "text": "Admit you're nervous", "next": "anxiety-2" },
+      { "text": "Say you're fine", "next": "anxiety-3" },
+      { "text": "Ask them to cover for you", "next": "anxiety-4" }
+    ],
+    "insight": "Naming anxiety is often the first step to softening it.",
+    "reflect": "What would compassion for yourself look like right now?",
+    "start": true
+  },
+  "anxiety-2": {
+    "text": "They nod with understanding and offer to breathe with you before you begin.",
+    "tags": ["anxiety", "support"],
+    "options": [
+      { "text": "Take a deep breath", "next": "anxiety-5" },
+      { "text": "Ask them to present instead", "next": "anxiety-4" }
+    ]
+  },
+  "anxiety-3": {
+    "text": "You force a smile and step up. Your heart races as you start speaking.",
+    "tags": ["anxiety"],
+    "options": [
+      { "text": "Pause and breathe", "next": "anxiety-5" },
+      { "text": "Rush through", "next": "anxiety-6" }
+    ]
+  },
+  "anxiety-4": {
+    "text": "They look surprised but agree. As they speak, you feel a mix of relief and disappointment.",
+    "tags": ["anxiety", "relief"],
+    "options": [
+      { "text": "Thank them and reflect", "next": "anxiety-5" }
+    ]
+  },
+  "anxiety-5": {
+    "text": "You breathe slowly and focus on one line at a time. The room quiets in your mind.",
+    "tags": ["anxiety", "self-compassion"],
+    "options": [],
+    "reflect": "How did acknowledging your fear help you?"
+  },
+  "anxiety-6": {
+    "text": "You rush through the words, barely remembering what you said once it's over.",
+    "tags": ["anxiety"],
+    "options": [],
+    "reflect": "What might happen if you paused instead of pushing ahead?"
+  }
+}

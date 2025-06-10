@@ -4,10 +4,17 @@ const Tracker = {
     anxiety: '🌧',
     forgiveness: '🌱',
     boundaries: '🚧',
+    resentment: '😠',
     guilt: '🔥',
     grief: '🖤',
     acceptance: '🌸',
-    'social anxiety': '💦'
+    'social anxiety': '💦',
+    exhaustion: '😴',
+    support: '🤝',
+    relief: '😌',
+    assertion: '📢',
+    communication: '💬',
+    'self-compassion': '💗'
   },
   load() {
     this.data = JSON.parse(localStorage.getItem('emoquest_tags') || '{}');
