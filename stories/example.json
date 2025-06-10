@@ -1,0 +1,28 @@
+{
+  "start": {
+    "text": "You find a stranger crying in the park.",
+    "options": [
+      { "text": "Ask if they’re okay", "next": "ask" },
+      { "text": "Walk away", "next": "walk" }
+    ]
+  },
+  "ask": {
+    "text": "They say they're having a hard day. What do you do?",
+    "options": [
+      { "text": "Listen silently", "next": "listen" },
+      { "text": "Give advice", "next": "advice" }
+    ]
+  },
+  "walk": {
+    "text": "You leave them to handle their emotions alone.",
+    "options": []
+  },
+  "listen": {
+    "text": "They appreciate your silent support.",
+    "options": []
+  },
+  "advice": {
+    "text": "They thank you for your words.",
+    "options": []
+  }
+}
