@@ -1,0 +1,42 @@
+{
+  "boundaries-1": {
+    "text": "It's 2 AM when a friend messages you again, venting about their partner.",
+    "tags": ["boundaries", "exhaustion"],
+    "options": [
+      { "text": "Reply anyway", "next": "boundaries-2" },
+      { "text": "Set a boundary", "next": "boundaries-3" },
+      { "text": "Mute them for now", "next": "boundaries-4" }
+    ],
+    "insight": "Boundaries protect relationships—they don't destroy them.",
+    "reflect": "Where are you afraid to set boundaries?",
+    "start": true
+  },
+  "boundaries-2": {
+    "text": "You reply despite your fatigue. The conversation drags on and you're even more tired.",
+    "tags": ["exhaustion"],
+    "options": [
+      { "text": "Explain you need sleep", "next": "boundaries-3" },
+      { "text": "Keep talking", "next": "boundaries-5" }
+    ]
+  },
+  "boundaries-3": {
+    "text": "You gently say you're too tired to talk now. They understand, though their messages slow.",
+    "tags": ["boundaries"],
+    "options": [
+      { "text": "Promise to catch up tomorrow", "next": "boundaries-5" }
+    ]
+  },
+  "boundaries-4": {
+    "text": "You mute your phone and try to sleep, wondering if they'll be upset.",
+    "tags": ["boundaries", "anxiety"],
+    "options": [
+      { "text": "Check messages in the morning", "next": "boundaries-5" }
+    ]
+  },
+  "boundaries-5": {
+    "text": "The next day you reconnect rested. They appreciate your honesty about needing space.",
+    "tags": ["boundaries", "empathy"],
+    "options": [],
+    "reflect": "How does rest change the way you support others?"
+  }
+}

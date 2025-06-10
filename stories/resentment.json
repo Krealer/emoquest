@@ -1,0 +1,42 @@
+{
+  "resentment-1": {
+    "text": "Your group project earns praise, but you did most of the work while others take equal credit.",
+    "tags": ["resentment"],
+    "options": [
+      { "text": "Speak to the teacher", "next": "resentment-2" },
+      { "text": "Talk to your teammate", "next": "resentment-3" },
+      { "text": "Let it go", "next": "resentment-4" }
+    ],
+    "insight": "Unspoken resentment corrodes quiet places in us.",
+    "reflect": "When is it hardest for you to speak up?",
+    "start": true
+  },
+  "resentment-2": {
+    "text": "You consider addressing the imbalance with your teacher after class.",
+    "tags": ["resentment", "assertion"],
+    "options": [
+      { "text": "Explain the work split", "next": "resentment-5" },
+      { "text": "Change your mind", "next": "resentment-4" }
+    ]
+  },
+  "resentment-3": {
+    "text": "You pull your teammate aside. They shrug and say 'We all did our part.'",
+    "tags": ["resentment"],
+    "options": [
+      { "text": "Share how you feel", "next": "resentment-5" },
+      { "text": "Drop the subject", "next": "resentment-4" }
+    ]
+  },
+  "resentment-4": {
+    "text": "You swallow the frustration. It lingers beneath your congratulations.",
+    "tags": ["resentment"],
+    "options": [],
+    "reflect": "What does holding resentment cost you?"
+  },
+  "resentment-5": {
+    "text": "By speaking up, you open a tense but honest conversation about effort.",
+    "tags": ["resentment", "communication"],
+    "options": [],
+    "reflect": "How do you weigh harmony against fairness?"
+  }
+}
