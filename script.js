@@ -77,34 +77,48 @@
   let identity = localStorage.getItem('emoquest-identity');
 
   async function loadStories() {
-    const files = await fetch('stories/index.json').then(r => r.json());
-    const newMap = {};
-    const startMap = {};
-    const prompts = [];
+    try {
+      const indexRes = await fetch('stories/index.json');
+      if (!indexRes.ok) throw new Error('index.json request failed');
+      const files = await indexRes.json();
+      const newMap = {};
+      const startMap = {};
+      const prompts = [];
 
-    const storyData = await Promise.all(
-      files.map(f => fetch(`stories/${f}.json`).then(r => r.json()))
-    );
+      const storyData = await Promise.all(
+        files.map(async f => {
+          const res = await fetch(`stories/${f}.json`);
+          if (!res.ok) throw new Error(`${f}.json request failed`);
+          return res.json();
+        })
+      );
 
-    for (const data of storyData) {
-      Object.entries(data).forEach(([id, node]) => {
-        if (node.start && Array.isArray(node.tags)) {
-          node.tags.forEach(tag => {
-            if (!startMap[tag]) startMap[tag] = id;
-          });
-        }
-        if (node.promptOfDay) {
-          prompts.push(id);
-        }
-      });
-      Object.assign(newMap, data);
+      for (const data of storyData) {
+        Object.entries(data).forEach(([id, node]) => {
+          if (node.start && Array.isArray(node.tags)) {
+            node.tags.forEach(tag => {
+              if (!startMap[tag]) startMap[tag] = id;
+            });
+          }
+          if (node.promptOfDay) {
+            prompts.push(id);
+          }
+        });
+        Object.assign(newMap, data);
+      }
+      storyMap = newMap;
+      tagStarts = startMap;
+      promptList = prompts;
+      return true;
+    } catch (err) {
+      console.error('Error loading stories', err);
+      gameEl.innerHTML = '<p>Failed to load stories. Please try again later.</p>';
+      return false;
     }
-    storyMap = newMap;
-    tagStarts = startMap;
-    promptList = prompts;
   }
 
-  await loadStories();
+  const loaded = await loadStories();
+  if (!loaded) return;
 
   if (promptList.length) {
     const day = new Date().getDate();
@@ -212,7 +226,8 @@
   if (reloadBtn) {
     reloadBtn.style.display = 'block';
     reloadBtn.addEventListener('click', async () => {
-      await loadStories();
+      const ok = await loadStories();
+      if (!ok) return;
       if (promptList.length) {
         const day = new Date().getDate();
         todaysPrompt = promptList[day % promptList.length];
