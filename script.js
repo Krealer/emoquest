@@ -23,6 +23,15 @@
   const themeModal = document.getElementById('theme-modal');
   const themeList = document.getElementById('theme-list');
   const closeTheme = document.getElementById('close-theme');
+  const settingsBtn = document.getElementById('open-settings');
+  const settingsModal = document.getElementById('settings-modal');
+  const closeSettings = document.getElementById('close-settings');
+  const changeIdBtn = document.getElementById('change-identity');
+  const resetIdBtn = document.getElementById('reset-identity');
+  const currentIdEl = document.getElementById('current-identity');
+  const themeSelect = document.getElementById('theme-intensity');
+  const journalSelect = document.getElementById('journal-pref');
+  const avoidListEl = document.getElementById('avoid-list');
 
   function safeGet(key) {
     try {
@@ -36,6 +45,24 @@
   function safeSet(key, value) {
     try {
       localStorage.setItem(key, value);
+    } catch (err) {
+      console.warn('Failed to write localStorage', err);
+    }
+  }
+
+  function getJSON(key, def) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : def;
+    } catch (err) {
+      console.warn('Failed to parse localStorage', err);
+      return def;
+    }
+  }
+
+  function setJSON(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
     } catch (err) {
       console.warn('Failed to write localStorage', err);
     }
@@ -67,6 +94,9 @@
   }
 
   function loadJournal() {
+    if (journalPref === 'discard') {
+      return tempJournal.slice();
+    }
     try {
       return JSON.parse(localStorage.getItem('emoquest-journal') || '[]');
     } catch (err) {
@@ -76,6 +106,10 @@
   }
 
   function saveJournalEntries(list) {
+    if (journalPref === 'discard') {
+      tempJournal = list.slice();
+      return;
+    }
     try {
       localStorage.setItem('emoquest-journal', JSON.stringify(list));
     } catch (err) {
@@ -141,6 +175,7 @@
     if (!themeModal) return;
     themeList.innerHTML = '';
     Object.keys(tagStarts).sort().forEach(tag => {
+      if (avoidTags.includes(tag)) return;
       const btn = document.createElement('button');
       btn.setAttribute('data-tag', tag);
       btn.textContent = Tracker.label(tag);
@@ -157,6 +192,92 @@
     closeTheme.addEventListener('click', () => {
       Modal.close(themeModal);
     });
+  }
+  if (settingsBtn) {
+    settingsBtn.addEventListener('click', openSettings);
+  }
+  if (closeSettings) {
+    closeSettings.addEventListener('click', () => {
+      Modal.close(settingsModal);
+      updateTodaysPrompt();
+    });
+  }
+  if (changeIdBtn) {
+    changeIdBtn.addEventListener('click', () => {
+      Modal.close(settingsModal);
+      showIdentityPrompt();
+    });
+  }
+  if (resetIdBtn) {
+    resetIdBtn.addEventListener('click', () => {
+      localStorage.removeItem('emoquest-identity');
+      identity = null;
+      if (currentIdEl) currentIdEl.textContent = 'None';
+    });
+  }
+
+  if (themeSelect) {
+    themeSelect.addEventListener('change', () => {
+      themeIntensity = themeSelect.value;
+      safeSet('emoquest-theme', themeIntensity);
+      document.body.classList.toggle('deep', themeIntensity === 'deep');
+    });
+  }
+
+  if (journalSelect) {
+    journalSelect.addEventListener('change', () => {
+      journalPref = journalSelect.value;
+      safeSet('emoquest-journal-pref', journalPref);
+    });
+  }
+
+  function openSettings() {
+    if (currentIdEl) currentIdEl.textContent = identity || 'None';
+    if (themeSelect) themeSelect.value = themeIntensity;
+    if (journalSelect) journalSelect.value = journalPref;
+    if (avoidListEl) populateAvoid();
+    Modal.open(settingsModal);
+  }
+
+  function populateAvoid() {
+    avoidListEl.innerHTML = '';
+    Object.keys(Tracker.EMOJI).forEach(tag => {
+      const id = 'avoid-' + tag.replace(/\s+/g, '-');
+      const wrap = document.createElement('div');
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.id = id;
+      cb.value = tag;
+      if (avoidTags.includes(tag)) cb.checked = true;
+      cb.addEventListener('change', updateAvoid);
+      const label = document.createElement('label');
+      label.setAttribute('for', id);
+      label.textContent = Tracker.label(tag);
+      wrap.appendChild(cb);
+      wrap.appendChild(label);
+      avoidListEl.appendChild(wrap);
+    });
+  }
+
+  function updateAvoid() {
+    avoidTags = Array.from(avoidListEl.querySelectorAll('input:checked')).map(i => i.value);
+    setJSON('emoquest-avoid', avoidTags);
+    updateTodaysPrompt();
+  }
+
+  function updateTodaysPrompt() {
+    if (!promptList.length) {
+      todaysPrompt = null;
+      return;
+    }
+    const day = new Date().getDate();
+    let list = promptList.filter(id => {
+      const node = storyMap[id];
+      const t = (node.tags || [])[0];
+      return !avoidTags.includes(t);
+    });
+    if (list.length === 0) list = promptList.slice();
+    todaysPrompt = list[day % list.length];
   }
   if (themeModal) {
     themeModal.addEventListener('click', e => {
@@ -176,8 +297,14 @@
   if (promptBtn) {
     promptBtn.addEventListener('click', () => {
       if (!todaysPrompt) return;
-      const node = storyMap[todaysPrompt];
-      const firstTag = (node.tags || [])[0];
+      let node = storyMap[todaysPrompt];
+      let firstTag = (node.tags || [])[0];
+      if (avoidTags.includes(firstTag)) {
+        updateTodaysPrompt();
+        if (!todaysPrompt) return;
+        node = storyMap[todaysPrompt];
+        firstTag = (node.tags || [])[0];
+      }
       progressEl.textContent = `\u{1F31E} Today’s Emotional Prompt: ${Tracker.label(firstTag)}`;
       render(todaysPrompt);
     });
@@ -188,6 +315,14 @@
   let promptList = [];
   let todaysPrompt = null;
   let identity = safeGet('emoquest-identity');
+  let themeIntensity = safeGet('emoquest-theme') || 'light';
+  let journalPref = safeGet('emoquest-journal-pref') || 'save';
+  let avoidTags = getJSON('emoquest-avoid', []);
+  let tempJournal = [];
+
+  if (themeIntensity === 'deep') {
+    document.body.classList.add('deep');
+  }
 
   async function loadStories() {
     try {
@@ -235,8 +370,7 @@
   if (!loaded) return;
 
   if (promptList.length) {
-    const day = new Date().getDate();
-    todaysPrompt = promptList[day % promptList.length];
+    updateTodaysPrompt();
   }
 
   let currentNode = 'start';
@@ -428,8 +562,7 @@
       const ok = await loadStories();
       if (!ok) return;
       if (promptList.length) {
-        const day = new Date().getDate();
-        todaysPrompt = promptList[day % promptList.length];
+        updateTodaysPrompt();
       } else {
         todaysPrompt = null;
       }

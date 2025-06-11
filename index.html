@@ -20,6 +20,7 @@
   <button id="start-journey">7-Day Journey</button>
   <button id="view-journey">My Journey</button>
   <button id="set-identity">Choose Identity</button>
+  <button id="open-settings">Settings</button>
   <div id="log-modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="log-content">
       <h2>Your Emotional Log</h2>
@@ -93,6 +94,37 @@
       <h2>7-Day Journey</h2>
       <div id="journey-days"></div>
       <button id="close-journey">Close</button>
+    </div>
+  </div>
+
+  <div id="settings-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="log-content">
+      <h2>Settings</h2>
+      <div class="setting-group">
+        <h3>Identity</h3>
+        <p id="current-identity"></p>
+        <button id="change-identity">Change</button>
+        <button id="reset-identity">Reset</button>
+      </div>
+      <div class="setting-group">
+        <h3>Theme Intensity</h3>
+        <select id="theme-intensity">
+          <option value="light">Light</option>
+          <option value="deep">Deep</option>
+        </select>
+      </div>
+      <div class="setting-group">
+        <h3>Journal Entries</h3>
+        <select id="journal-pref">
+          <option value="save">Save Locally</option>
+          <option value="discard">Discard After Session</option>
+        </select>
+      </div>
+      <div class="setting-group">
+        <h3>Triggers to Avoid</h3>
+        <div id="avoid-list"></div>
+      </div>
+      <button id="close-settings">Close</button>
     </div>
   </div>
   <button id="reload-stories" style="display:none">Reload Stories</button>
