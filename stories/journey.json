@@ -1,0 +1,84 @@
+{
+  "journey-1": {
+    "text": "Day 1 – Awareness. Pause and notice your feelings in this moment.",
+    "tags": ["awareness"],
+    "options": [
+      { "text": "Finish for today", "next": "journey-end" }
+    ],
+    "insight": "Naming a feeling often softens its grip.",
+    "reflect": "What emotion stands out right now?",
+    "journal": true,
+    "journeyDay": 1
+  },
+  "journey-2": {
+    "text": "Day 2 – Empathy. Recall when a friend seemed upset. Imagine their feelings.",
+    "tags": ["empathy"],
+    "options": [
+      { "text": "Finish for today", "next": "journey-end" }
+    ],
+    "insight": "Empathy grows when we consider another's inner world.",
+    "reflect": "How might they have felt?",
+    "journal": true,
+    "journeyDay": 2
+  },
+  "journey-3": {
+    "text": "Day 3 – Boundaries. Think of a time you wished to say no with care.",
+    "tags": ["boundaries"],
+    "options": [
+      { "text": "Finish for today", "next": "journey-end" }
+    ],
+    "insight": "Healthy limits protect both you and your relationships.",
+    "reflect": "What gentle words could you use?",
+    "journal": true,
+    "journeyDay": 3
+  },
+  "journey-4": {
+    "text": "Day 4 – Guilt. Remember a mistake that still weighs on you.",
+    "tags": ["guilt"],
+    "options": [
+      { "text": "Finish for today", "next": "journey-end" }
+    ],
+    "insight": "Guilt reminds us of our values and offers room to grow.",
+    "reflect": "How might you make peace with it?",
+    "journal": true,
+    "journeyDay": 4
+  },
+  "journey-5": {
+    "text": "Day 5 – Forgiveness. Picture releasing resentment toward yourself or another.",
+    "tags": ["forgiveness"],
+    "options": [
+      { "text": "Finish for today", "next": "journey-end" }
+    ],
+    "insight": "Forgiveness frees energy bound up in the past.",
+    "reflect": "What might letting go feel like?",
+    "journal": true,
+    "journeyDay": 5
+  },
+  "journey-6": {
+    "text": "Day 6 – Identity. Who are you becoming through this reflection?",
+    "tags": ["identity"],
+    "options": [
+      { "text": "Finish for today", "next": "journey-end" }
+    ],
+    "insight": "Our sense of self shifts as we face our feelings.",
+    "reflect": "Which qualities are emerging?",
+    "journal": true,
+    "journeyDay": 6
+  },
+  "journey-7": {
+    "text": "Day 7 – Integration. How will these insights weave into daily life?",
+    "tags": ["integration"],
+    "options": [
+      { "text": "Finish for today", "next": "journey-end" }
+    ],
+    "insight": "Integration turns lessons into habits.",
+    "reflect": "What small step will you carry forward?",
+    "journal": true,
+    "journeyDay": 7
+  },
+  "journey-end": {
+    "text": "Take a deep breath. Come back tomorrow for the next step.",
+    "tags": [],
+    "options": []
+  }
+}

@@ -11,6 +11,12 @@
   const memoryModal = document.getElementById('memory-modal');
   const memoryBody = document.getElementById('memory-body');
   const closeMemory = document.getElementById('close-memory');
+  const journalBtn = document.getElementById('view-journal');
+  const journalModal = document.getElementById('journal-modal');
+  const journalList = document.getElementById('journal-list');
+  const journalEntry = document.getElementById('journal-entry');
+  const saveJournal = document.getElementById('save-journal');
+  const closeJournal = document.getElementById('close-journal');
   const identityModal = document.getElementById('identity-modal');
   const setIdentityBtn = document.getElementById('set-identity');
 
@@ -53,6 +59,50 @@
   if (closeMemory) {
     closeMemory.addEventListener('click', () => {
       Modal.close(memoryModal);
+    });
+  }
+
+  function loadJournal() {
+    try {
+      return JSON.parse(localStorage.getItem('emoquest-journal') || '[]');
+    } catch (err) {
+      console.warn('Failed to read localStorage', err);
+      return [];
+    }
+  }
+
+  function saveJournalEntries(list) {
+    try {
+      localStorage.setItem('emoquest-journal', JSON.stringify(list));
+    } catch (err) {
+      console.warn('Failed to write localStorage', err);
+    }
+  }
+
+  function openJournal() {
+    const entries = loadJournal();
+    journalList.innerHTML = entries.length ? entries.map(e => `<p>${e}</p>`).join('') : '<p>No entries yet.</p>';
+    if (journalEntry) journalEntry.value = '';
+    Modal.open(journalModal);
+  }
+
+  if (journalBtn) {
+    journalBtn.addEventListener('click', openJournal);
+  }
+  if (saveJournal) {
+    saveJournal.addEventListener('click', () => {
+      const text = journalEntry.value.trim();
+      if (!text) return;
+      const list = loadJournal();
+      list.push(text);
+      saveJournalEntries(list);
+      journalEntry.value = '';
+      journalList.innerHTML = list.map(e => `<p>${e}</p>`).join('');
+    });
+  }
+  if (closeJournal) {
+    closeJournal.addEventListener('click', () => {
+      Modal.close(journalModal);
     });
   }
 
@@ -163,6 +213,9 @@
     if (node.identity && identity && !node.identity.includes(identity)) return;
     if (node.identity && !identity) return;
     Memory.remember(node.remember);
+    if (node.journeyDay && window.Journey && Journey.completeDay) {
+      Journey.completeDay(node.journeyDay);
+    }
     Tracker.increment(node.tags);
     currentNode = nodeId;
     safeSet('emoquest_current_node', nodeId);
@@ -258,6 +311,13 @@
         if (next) render(next);
       });
     });
+
+    if (node.journal) {
+      const jBtn = document.createElement('button');
+      jBtn.textContent = 'Journal';
+      jBtn.addEventListener('click', openJournal);
+      gameEl.appendChild(jBtn);
+    }
 
     notifyNewTags(node.tags);
   }

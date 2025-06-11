@@ -15,6 +15,8 @@
   <button id="start-prompt">🌞 Start Today’s Prompt</button>
   <button id="view-log">View My Log</button>
   <button id="view-memory">My Memories</button>
+  <button id="view-journal">My Journal</button>
+  <button id="start-journey">7-Day Journey</button>
   <button id="view-journey">My Journey</button>
   <button id="set-identity">Choose Identity</button>
   <div id="log-modal" role="dialog" aria-modal="true" aria-hidden="true">
@@ -30,6 +32,16 @@
       <h2>Your Memories</h2>
       <div id="memory-body"></div>
       <button id="close-memory">Close</button>
+    </div>
+  </div>
+
+  <div id="journal-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="log-content">
+      <h2>Journal</h2>
+      <div id="journal-list"></div>
+      <textarea id="journal-entry" placeholder="Write your thoughts..."></textarea>
+      <button id="save-journal">Save Entry</button>
+      <button id="close-journal">Close</button>
     </div>
   </div>
 
@@ -56,12 +68,21 @@
       <button id="close-dashboard">Close</button>
     </div>
   </div>
+
+  <div id="journey-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="log-content">
+      <h2>7-Day Journey</h2>
+      <div id="journey-days"></div>
+      <button id="close-journey">Close</button>
+    </div>
+  </div>
   <button id="reload-stories" style="display:none">Reload Stories</button>
   <script src="tracker.js"></script>
   <script src="insights.js"></script>
   <script src="memory.js"></script>
   <script src="modal.js"></script>
   <script src="dashboard.js"></script>
+  <script src="journey.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
