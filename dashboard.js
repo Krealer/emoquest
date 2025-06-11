@@ -74,8 +74,11 @@
       const tag = el.getAttribute('data-tag');
       const start = window.EmoQuest.tagStarts[tag];
       if (start) {
+        const id = Array.isArray(start)
+          ? start[Math.floor(Math.random() * start.length)]
+          : start;
         Modal.close(dash);
-        window.EmoQuest.render(start);
+        window.EmoQuest.render(id);
       }
     }
   });

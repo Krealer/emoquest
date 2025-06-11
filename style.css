@@ -105,7 +105,11 @@ body {
   margin-top: 15px;
 }
 
-#journal-modal, #journey-modal {
+#theme-modal button {
+  margin-top: 15px;
+}
+
+#journal-modal, #journey-modal, #theme-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -117,7 +121,7 @@ body {
   justify-content: center;
 }
 
-#journal-modal .log-content, #journey-modal .log-content {
+#journal-modal .log-content, #journey-modal .log-content, #theme-modal .log-content {
   background: white;
   padding: 20px;
   border-radius: 8px;

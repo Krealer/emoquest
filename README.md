@@ -4,6 +4,8 @@ EmoQuest is a lightweight, browser-based story engine exploring emotional themes
 
 Stories live inside the `stories/` folder. `stories/index.json` lists every story file to load so the engine can build one combined node graph. Choices a player makes are tracked locally to give gentle progress feedback and short term "memories" that later text can reference.
 
+Use the **Explore Themes** button to browse emotional categories like empathy or guilt and start a scenario that speaks to you.
+
 See [CONTRIBUTING.md](CONTRIBUTING.md) if you would like to add your own scenarios.
 
 ## Deployment
