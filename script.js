@@ -19,6 +19,10 @@
   const closeJournal = document.getElementById('close-journal');
   const identityModal = document.getElementById('identity-modal');
   const setIdentityBtn = document.getElementById('set-identity');
+  const openThemesBtn = document.getElementById('open-themes');
+  const themeModal = document.getElementById('theme-modal');
+  const themeList = document.getElementById('theme-list');
+  const closeTheme = document.getElementById('close-theme');
 
   function safeGet(key) {
     try {
@@ -127,6 +131,42 @@
     });
   }
 
+  function openThemeModal() {
+    if (!themeModal) return;
+    themeList.innerHTML = '';
+    Object.keys(tagStarts).sort().forEach(tag => {
+      const btn = document.createElement('button');
+      btn.setAttribute('data-tag', tag);
+      btn.textContent = Tracker.label(tag);
+      if (INSIGHTS[tag]) btn.title = INSIGHTS[tag];
+      themeList.appendChild(btn);
+    });
+    Modal.open(themeModal);
+  }
+
+  if (openThemesBtn) {
+    openThemesBtn.addEventListener('click', openThemeModal);
+  }
+  if (closeTheme) {
+    closeTheme.addEventListener('click', () => {
+      Modal.close(themeModal);
+    });
+  }
+  if (themeModal) {
+    themeModal.addEventListener('click', e => {
+      const btn = e.target.closest('button[data-tag]');
+      if (btn) {
+        const tag = btn.getAttribute('data-tag');
+        const starts = tagStarts[tag];
+        if (starts && starts.length) {
+          const id = starts[Math.floor(Math.random() * starts.length)];
+          Modal.close(themeModal);
+          render(id);
+        }
+      }
+    });
+  }
+
   if (promptBtn) {
     promptBtn.addEventListener('click', () => {
       if (!todaysPrompt) return;
@@ -164,7 +204,8 @@
         Object.entries(data).forEach(([id, node]) => {
           if (node.start && Array.isArray(node.tags)) {
             node.tags.forEach(tag => {
-              if (!startMap[tag]) startMap[tag] = id;
+              if (!startMap[tag]) startMap[tag] = [];
+              startMap[tag].push(id);
             });
           }
           if (node.promptOfDay) {
