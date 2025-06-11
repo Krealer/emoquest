@@ -1,6 +1,7 @@
 const Modal = {
   open(modal) {
     if (!modal) return;
+    modal._returnFocus = document.activeElement;
     modal.style.display = 'flex';
     modal.removeAttribute('aria-hidden');
     const focusable = modal.querySelectorAll(
@@ -40,6 +41,11 @@ const Modal = {
       modal.removeEventListener('keydown', modal._modalHandler);
       modal._modalHandler = null;
     }
+    const opener = modal._returnFocus;
+    if (opener && typeof opener.focus === 'function') {
+      opener.focus();
+    }
+    modal._returnFocus = null;
   }
 };
 
