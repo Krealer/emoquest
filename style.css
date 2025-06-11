@@ -201,3 +201,15 @@ body {
   font-style: italic;
   text-align: center;
 }
+
+.closure {
+  margin: 20px 0;
+  font-weight: bold;
+  text-align: center;
+}
+
+.symbol {
+  margin-bottom: 20px;
+  font-style: italic;
+  text-align: center;
+}

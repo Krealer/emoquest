@@ -55,12 +55,22 @@
   "listen": {
     "text": "They appreciate your silent support.",
     "tags": ["example"],
-    "options": []
+    "options": [],
+    "end": true,
+    "closure": "The moment settles and you feel a gentle release.",
+    "symbol": "🌱 A small seed of compassion takes root.",
+    "endReflect": "What changed in you during this silence?",
+    "endInsight": "Sometimes presence speaks louder than words."
   },
   "advice": {
     "text": "They thank you for your words.",
     "tags": ["example"],
-    "options": []
+    "options": [],
+    "end": true,
+    "closure": "You shared your perspective and then stepped back.",
+    "symbol": "🪶 A lightness settles as advice is given.",
+    "endReflect": "Did offering guidance ease your concern?",
+    "endInsight": "Advice can comfort, yet listening often does the deepest work."
   },
   "return": {
     "text": "You’ve been here before. This time, you speak up.",

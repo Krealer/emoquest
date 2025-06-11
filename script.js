@@ -268,6 +268,41 @@
     let optsDiv = document.createElement('div');
     optsDiv.className = 'options';
 
+    if (node.end) {
+      if (node.closure) {
+        const closeDiv = document.createElement('div');
+        closeDiv.className = 'closure';
+        closeDiv.textContent = node.closure;
+        gameEl.appendChild(closeDiv);
+      }
+      if (node.symbol) {
+        const symbolDiv = document.createElement('div');
+        symbolDiv.className = 'symbol';
+        symbolDiv.textContent = node.symbol;
+        gameEl.appendChild(symbolDiv);
+      }
+      if (node.endInsight) {
+        const endInDiv = document.createElement('div');
+        endInDiv.className = 'insight';
+        endInDiv.textContent = node.endInsight;
+        gameEl.appendChild(endInDiv);
+      }
+      if (node.endReflect) {
+        const endReDiv = document.createElement('div');
+        endReDiv.className = 'reflect';
+        endReDiv.textContent = node.endReflect;
+        gameEl.appendChild(endReDiv);
+      }
+      if (node.journal) {
+        const jBtn = document.createElement('button');
+        jBtn.textContent = 'Journal';
+        jBtn.addEventListener('click', openJournal);
+        gameEl.appendChild(jBtn);
+      }
+      notifyNewTags(node.tags);
+      return;
+    }
+
     if (reflect) {
       const reflectDiv = document.createElement('div');
       reflectDiv.className = 'reflect';
