@@ -25,6 +25,9 @@ Run `npm test` to execute a small linter that validates the story JSON files. Th
 
 During development there is a hidden **Reload Stories** button that allows hot reloading of the story files. It appears automatically when running the site on `localhost`.
 
+## Documentation
+See the [docs](docs/README.md) folder for detailed guides on the engine, features and contribution workflow.
+
 ## License
 
 This project is released under the MIT License. See [LICENSE](LICENSE) for details.
