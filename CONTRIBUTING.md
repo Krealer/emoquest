@@ -40,6 +40,16 @@ Every entry in a story file is a node keyed by a unique ID:
 * Node IDs follow the format `theme-slug`, for example `guilt-apology-1`.
 
 ## Tone Guidelines
-Keep prompts concise, gentle and reflective. Encourage exploration of feelings
-rather than judging actions. When providing choices, try to offer meaningful
-perspectives instead of binary right/wrong paths.
+Keep prompts concise, gentle and reflective. Encourage exploration of feelings rather than judging actions. When providing choices, offer meaningful perspectives instead of binary right/wrong paths.
+## Contribution Workflow
+1. Fork the repository and create a branch for your story.
+2. Add a JSON file in `stories/` following the structure above.
+3. List the filename (without `.json`) in `stories/index.json`.
+4. Run `npm test` to lint your story files.
+5. Commit your changes and open a pull request.
+
+Pull requests are reviewed for valid JSON, respectful tone and unique node IDs.
+Once approved, they are merged into `main` so your nodes become part of the story pool.
+
+## Inclusive Voices
+EmoQuest welcomes emotional perspectives from people of all backgrounds. Please share your experiences in your own words while keeping the writing gentle and reflective. If you're unsure about anything, open an issue or discussion so we can collaborate.
