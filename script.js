@@ -110,6 +110,12 @@
     });
   }
 
+  function openReflection(tags) {
+    if (window.Reflection && typeof Reflection.open === 'function') {
+      Reflection.open(tags, identity);
+    }
+  }
+
   function showIdentityPrompt() {
     if (identityModal) Modal.open(identityModal);
   }
@@ -340,6 +346,10 @@
         jBtn.addEventListener('click', openJournal);
         gameEl.appendChild(jBtn);
       }
+      const rBtn = document.createElement('button');
+      rBtn.textContent = 'Reflect';
+      rBtn.addEventListener('click', () => openReflection(node.tags));
+      gameEl.appendChild(rBtn);
       notifyNewTags(node.tags);
       return;
     }
@@ -394,6 +404,10 @@
       jBtn.addEventListener('click', openJournal);
       gameEl.appendChild(jBtn);
     }
+    const rBtn = document.createElement('button');
+    rBtn.textContent = 'Reflect';
+    rBtn.addEventListener('click', () => openReflection(node.tags));
+    gameEl.appendChild(rBtn);
 
     notifyNewTags(node.tags);
   }
