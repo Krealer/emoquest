@@ -14,7 +14,10 @@ const Tracker = {
     relief: '😌',
     assertion: '📢',
     communication: '💬',
-    'self-compassion': '💗'
+    'self-compassion': '💗',
+    awareness: '👁️',
+    identity: '🪞',
+    integration: '🧩'
   },
   load() {
     try {
