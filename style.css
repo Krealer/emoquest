@@ -121,7 +121,7 @@ body.deep .log-content {
   margin-top: 15px;
 }
 
-#journal-modal, #journey-modal, #theme-modal, #reflection-modal, #settings-modal {
+#journal-modal, #journey-modal, #theme-modal, #reflection-modal, #settings-modal, #ending-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -133,7 +133,7 @@ body.deep .log-content {
   justify-content: center;
 }
 
-#journal-modal .log-content, #journey-modal .log-content, #theme-modal .log-content, #reflection-modal .log-content, #settings-modal .log-content {
+#journal-modal .log-content, #journey-modal .log-content, #theme-modal .log-content, #reflection-modal .log-content, #settings-modal .log-content, #ending-modal .log-content {
   background: white;
   padding: 20px;
   border-radius: 8px;

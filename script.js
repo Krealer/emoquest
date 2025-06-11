@@ -29,6 +29,11 @@
   const changeIdBtn = document.getElementById('change-identity');
   const resetIdBtn = document.getElementById('reset-identity');
   const currentIdEl = document.getElementById('current-identity');
+  const endBtn = document.getElementById('end-session');
+  const endingModal = document.getElementById('ending-modal');
+  const endingSummary = document.getElementById('ending-summary');
+  const endingMessage = document.getElementById('ending-message');
+  const closeEnding = document.getElementById('close-ending');
   const themeSelect = document.getElementById('theme-intensity');
   const journalSelect = document.getElementById('journal-pref');
   const avoidListEl = document.getElementById('avoid-list');
@@ -202,6 +207,14 @@
       updateTodaysPrompt();
     });
   }
+  if (endBtn) {
+    endBtn.addEventListener('click', openEnding);
+  }
+  if (closeEnding) {
+    closeEnding.addEventListener('click', () => {
+      Modal.close(endingModal);
+    });
+  }
   if (changeIdBtn) {
     changeIdBtn.addEventListener('click', () => {
       Modal.close(settingsModal);
@@ -237,6 +250,21 @@
     if (journalSelect) journalSelect.value = journalPref;
     if (avoidListEl) populateAvoid();
     Modal.open(settingsModal);
+  }
+
+  function openEnding() {
+    if (!endingModal) return;
+    Tracker.load();
+    const lines = Tracker.lines().slice(0, 3);
+    const tagText = lines.length ?
+      'You explored ' + lines.map(l => l.split(':')[0]).join(', ') + '. ' : '';
+    const idText = identity ? `You walked as the ${identity}. ` : '';
+    if (endingSummary) endingSummary.textContent = tagText + idText;
+    if (endingMessage) {
+      endingMessage.innerHTML =
+        '\u201CIn stillness we find new beginnings.\u201D<br>You can return when you\'re ready.';
+    }
+    Modal.open(endingModal);
   }
 
   function populateAvoid() {
